@@ -1,7 +1,7 @@
 import matlab.engine
 
-def setup_matlab():
 
+def setup_matlab():
     eng = matlab.engine.start_matlab()
 
     # add MVGC2 paths
