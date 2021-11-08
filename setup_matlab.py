@@ -8,3 +8,5 @@ def setup_matlab():
     eng.addpath("/Users/FrancescoInnocenti/Documents/MATLAB/MVGC2/core")
     eng.addpath("/Users/FrancescoInnocenti/Documents/MATLAB/MVGC2/utils")
     eng.addpath("/Users/FrancescoInnocenti/Documents/MATLAB/MVGC2/demo")
+
+    return eng
