@@ -4,7 +4,7 @@ import numpy as np
 eng = setup_matlab()
 
 
-def simulate_data(n_trials, n_obs, adj_net, p, rho, wvar, rmi, demean=True,
+def simulate_data(n_trials, n_obs, adj_net, moact, rho, wvar, rmi, demean=True,
                   py=False):
     """Generates data from a random VAR model for a given network.
 
@@ -12,7 +12,7 @@ def simulate_data(n_trials, n_obs, adj_net, p, rho, wvar, rmi, demean=True,
         n_trials (float): number of trials or epochs.
         n_obs (float): number of observations (sampled time points) per trial.
         adj_net: adjacency matrix of a network/graph.
-        p (float): VAR model order (number of time lags).
+        moact (float): VAR model order (number of time lags).
         rho (float): spectral radius.
         wvar (float): VAR coefficients decay weighting factor.
         rmi (float): residuals log-generalised correlation (multi-information).
@@ -27,7 +27,7 @@ def simulate_data(n_trials, n_obs, adj_net, p, rho, wvar, rmi, demean=True,
     """
 
     # generate random VAR coefficients for test network
-    AA = eng.var_rand(adj_net, p, rho, wvar)
+    AA = eng.var_rand(adj_net, moact, rho, wvar)
     n_vars = eng.size(AA, 1)
 
     # generate random residuals covariance (in fact correlation) matrix
