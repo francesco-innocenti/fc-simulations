@@ -9,10 +9,10 @@ def simulate_data(n_trials, n_obs, adj_net, p, rho, wvar, rmi, demean=True,
     """Generates data from a random VAR model for a given network.
 
     Args:
-        n_trials (int): number of trials or epochs.
-        n_obs (int): number of observations (sampled time points) per trial.
+        n_trials (float): number of trials or epochs.
+        n_obs (float): number of observations (sampled time points) per trial.
         adj_net: adjacency matrix of a network/graph.
-        p (int): VAR model order (number of time lags).
+        p (float): VAR model order (number of time lags).
         rho (float): spectral radius.
         wvar (float): VAR coefficients decay weighting factor.
         rmi (float): residuals log-generalised correlation (multi-information).
@@ -41,7 +41,7 @@ def simulate_data(n_trials, n_obs, adj_net, p, rho, wvar, rmi, demean=True,
     data = eng.varfima_to_tsdata(AA, [], [], VV, n_obs, n_trials)
 
     if demean:
-        data = eng.demean(data)
+        data = eng.demean(data, True)
 
     if py:
         data = np.array(data)
