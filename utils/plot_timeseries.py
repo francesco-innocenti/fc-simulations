@@ -16,7 +16,7 @@ def plot_timeseries(data, sfreq):
         sfreq (int): sampling frequency (Hz).
 
     """
-    if isinstance(data, np.ndarray):
+    if not isinstance(data, np.ndarray):
         data = np.array(data)
 
     n_nodes = data.shape[0]
