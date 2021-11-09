@@ -23,5 +23,3 @@ def plot_timeseries(data, sfreq):
     for i in range(n_trials):
         trial = mne.io.RawArray(data[:, :, i], info=info)
         trial.plot()
-
-    plt.show()
