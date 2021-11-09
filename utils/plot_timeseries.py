@@ -1,10 +1,6 @@
-from utils.setup_matlab import setup_matlab
-
 import numpy as np
 import matplotlib.pyplot as plt
 import mne
-
-eng = setup_matlab()
 
 
 def plot_timeseries(data, sfreq):
