@@ -13,7 +13,7 @@ def plot_timeseries(data, sfreq):
 
     """
     if not isinstance(data, np.ndarray):
-        data = np.array([data])
+        data = np.array(data)
 
     n_nodes = data.shape[0]
     n_trials = data.shape[2]
