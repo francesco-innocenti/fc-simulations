@@ -4,20 +4,20 @@ import numpy as np
 eng = setup_matlab()
 
 
-def simulate_data(n_trials, n_obs, adj_net, p, rho, wvar, rmi, demean,
+def simulate_data(n_trials, n_obs, adj_net, p, rho, wvar, rmi, demean=True,
                   py=False):
     """Generates data from a random VAR model for a given network.
 
     Args:
-        n_trials (int): number of trials or epochs
-        n_obs (int): number of observations (sampled time points) per trial
-        adj_net: adjacency matrix of a network/graph
-        p (int): VAR model order (number of time lags)
-        rho (float): spectral radius
-        wvar (float): VAR coefficients decay weighting factor
-        rmi (float): residuals log-generalised correlation (multi-information)
+        n_trials (int): number of trials or epochs.
+        n_obs (int): number of observations (sampled time points) per trial.
+        adj_net: adjacency matrix of a network/graph.
+        p (int): VAR model order (number of time lags).
+        rho (float): spectral radius.
+        wvar (float): VAR coefficients decay weighting factor.
+        rmi (float): residuals log-generalised correlation (multi-information).
         demean (bool): whether to remove temporal mean and normalise by temporal
-            variance.
+            variance. True by default.
         py (bool): whether to convert returned matlab array into a numpy
             array for Python. False by default.
 
