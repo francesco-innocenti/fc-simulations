@@ -1,4 +1,5 @@
 import matlab.engine
+import matplotlib.pyplot as plt
 import numpy as np
 import networkx as nx
 import mne
@@ -78,10 +79,12 @@ def plot_network(adj_net):
         raise ValueError("Adjacency matrix must have two dimensions")
 
     g = nx.convert_matrix.from_numpy_matrix(adj_net)
-    labels = {n: n + 1 for n in range(len(adj_net))}
+    n_nodes = len(adj_net)
+    labels = {n: n + 1 for n in range(n_nodes)}
     nx.draw(g, arrows=True, with_labels=True, labels=labels, node_size=1400,
             node_color='red', alpha=0.8, font_size=15, edgecolors='black',
             arrowsize=12, pos=nx.circular_layout(g))
+    plt.savefig(f"figures/{n_nodes}-node network.pdf")
 
 
 def plot_timeseries(data, sfreq):
@@ -104,3 +107,4 @@ def plot_timeseries(data, sfreq):
     for i in range(n_trials):
         trial = mne.io.RawArray(data[:, :, i], info=info)
         trial.plot()
+        plt.savefig(f"figures/Time series of trial #{i}.pdf")
