@@ -1,17 +1,16 @@
-from setup_matlab import setup_matlab
+from utils.setup_matlab import setup_matlab
 import numpy as np
 
 eng = setup_matlab()
 
 
-def simulate_data(n_trials, n_obs, sfreq, adj_net, p, rho, wvar, rmi, demean,
+def simulate_data(n_trials, n_obs, adj_net, p, rho, wvar, rmi, demean,
                   py=False):
     """Generates data from a random VAR model for a given network.
 
     Args:
         n_trials (int): number of trials or epochs
         n_obs (int): number of observations (sampled time points) per trial
-        sfreq (int): sampling frequency (Hz)
         adj_net: adjacency matrix of a network/graph
         p (int): VAR model order (number of time lags)
         rho (float): spectral radius
@@ -42,7 +41,7 @@ def simulate_data(n_trials, n_obs, sfreq, adj_net, p, rho, wvar, rmi, demean,
     data = eng.varfima_to_tsdata(AA, [], [], VV, n_obs, n_trials)
 
     if demean:
-        data = eng.demean(data, true)
+        data = eng.demean(data)
 
     if py:
         data = np.array(data)
