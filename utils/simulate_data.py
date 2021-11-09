@@ -33,8 +33,9 @@ def simulate_data(n_trials, n_obs, adj_net, p, rho, wvar, rmi, demean=True,
     # generate random residuals covariance (in fact correlation) matrix
     VV = eng.corr_rand(n_vars, rmi)
 
-    # report information on the generated VAR model
+    # report information on the generated VAR model and check for errors
     info = eng.var_info(AA, VV)
+    assert info.error, "VAR error(s) found - bailing out"
 
     # generate multi-trial VAR time series data with normally distributed residuals
     # for generated VAR coefficients and residuals covariance matrix
