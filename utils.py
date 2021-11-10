@@ -84,6 +84,12 @@ def plot_network(adj_net, save=True):
 
     n_nodes = len(adj_net)
 
+    # remove self-connections
+    for r in range(adj_net.shape[0]):
+        for c in range(adj_net.shape[1]):
+            if r == c:
+                adj_net[r, c] = 0
+
     # connectivity
     fig, ax = plt.subplots(figsize=(8, 6))
     labels = [0, 1, 2, 3, 4, 5]
