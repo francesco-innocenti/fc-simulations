@@ -94,6 +94,7 @@ def plot_network(adj_net, save=True):
     fig, ax = plt.subplots(figsize=(8, 6))
     labels = [0, 1, 2, 3, 4, 5]
     img = ax.imshow(adj_net, cmap='Purples', origin='lower')
+    ax.set_title("True connectivity matrix", fontsize=18, fontweight='bold')
     ax.set_xticklabels(labels)
     ax.set_yticklabels(labels)
     ax.tick_params(axis='both', which='major', labelsize=14)
@@ -161,6 +162,7 @@ def plot_psi(psi, save=True):
     fig, ax = plt.subplots(figsize=(8, 6))
     labels = [0, 1, 2, 3, 4, 5]
     img = ax.imshow(psi, cmap='bwr', origin='lower')
+    ax.set_title("PSI connectivity matrix", fontsize=18, fontweight='bold')
     ax.set_xticklabels(labels)
     ax.set_yticklabels(labels)
     ax.tick_params(axis='both', which='major', labelsize=14)
