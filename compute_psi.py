@@ -9,7 +9,7 @@ eng = setup_matlab()
 # data generation parameters
 n_trials = float(4)
 n_obs = float(500)
-adj_net = eng.tnet5()
+adj_net = eng.tnet9()
 n_nodes = len(adj_net)
 p = float(6)
 rho = 0.95
@@ -27,11 +27,11 @@ seed = 123
 eng.rng_seed(seed)
 
 # plot test network and its connectivity matrix
-plot_network(adj_net, save=False)
+plot_network(adj_net, save=True)
 
 # generate and plot random VAR test data
 data = simulate_data(n_trials, n_obs, adj_net, p, rho, wvar, rmi, py=True)
-plot_timeseries(data, sfreq, save=False)
+plot_timeseries(data, sfreq, save=True)
 
 # compute PSI
 data = np.transpose(data, (2, 0, 1))
@@ -40,6 +40,6 @@ psi_connectivity = phase_slope_index(data, mode='multitaper', sfreq=sfreq,
 
 # plot estimated connectivity matrix
 psi = psi_connectivity.get_data()
-psi = psi.reshape((5, 5))
-plot_psi(psi, save=False)
+psi = psi.reshape((n_nodes, n_nodes))
+plot_psi(psi, save=True)
 plt.show()
