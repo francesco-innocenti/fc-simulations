@@ -1,8 +1,6 @@
-from utils.setup_matlab import setup_matlab
-from utils.simulate_data import simulate_data
-
+from utils import *
 import numpy as np
-import mne
+import matplotlib.pyplot as plt
 from mne_connectivity import phase_slope_index
 
 
@@ -11,7 +9,8 @@ eng = setup_matlab()
 # data generation parameters
 n_trials = float(4)
 n_obs = float(500)
-net = eng.tnet5()
+adj_net = eng.tnet5()
+n_nodes = len(adj_net)
 p = float(6)
 rho = 0.95
 wvar = 0.5
@@ -27,10 +26,20 @@ tmin = 0
 seed = 123
 eng.rng_seed(seed)
 
-# generate random VAR test data
-data = simulate_data(n_trials, n_obs, net, p, rho, wvar, rmi, py=True)
+# plot test network and its connectivity matrix
+plot_network(adj_net, save=False)
+
+# generate and plot random VAR test data
+data = simulate_data(n_trials, n_obs, adj_net, p, rho, wvar, rmi, py=True)
+plot_timeseries(data, sfreq, save=False)
 
 # compute PSI
 data = np.transpose(data, (2, 0, 1))
-psi = phase_slope_index(data, mode='multitaper', sfreq=sfreq, fmin=fmin,
-                        fmax=fmax, tmin=tmin)
+psi_connectivity = phase_slope_index(data, mode='multitaper', sfreq=sfreq,
+                                     fmin=fmin, fmax=fmax, tmin=tmin)
+
+# plot estimated connectivity matrix
+psi = psi_connectivity.get_data()
+psi = psi.reshape((5, 5))
+plot_psi(psi, save=False)
+plt.show()
