@@ -66,7 +66,7 @@ def simulate_data(n_trials, n_obs, adj_net, moact, rho, wvar, rmi, demean=True,
 
 
 def plot_network(adj_net):
-    """Plots network with its adjacency or connectivity matrix.
+    """Plots network or graph from its adjacency or connectivity matrix.
 
     Args:
         adj_net (array): (2D) matrix representing graph/network.
@@ -80,7 +80,31 @@ def plot_network(adj_net):
 
     n_nodes = len(adj_net)
 
-    # connectivity matrix
+    g = nx.convert_matrix.from_numpy_matrix(adj_net, create_using=nx.DiGraph())
+    labels = {n: n + 1 for n in range(n_nodes)}
+    fig, ax = plt.subplots(figsize=(8, 6))
+    nx.draw(g, arrows=True, with_labels=True, labels=labels, node_size=1400,
+            node_color='red', alpha=0.8, font_size=15, edgecolors='black',
+            arrowsize=12, pos=nx.circular_layout(g), ax=ax)
+    #fig.savefig(f"figures/{n_nodes}-node network.pdf")
+
+
+def plot_connectivity(adj_net):
+    """Plots adjacency or connectivity matrix as a heatmap.
+
+    Args:
+        adj_net (array): (2D) matrix representing graph/network.
+
+    """
+
+    if not isinstance(adj_net, np.ndarray):
+        adj_net = np.array(adj_net)
+
+    if len(adj_net.shape) != 2:
+        raise ValueError("Adjacency matrix must have two dimensions")
+
+    n_nodes = len(adj_net)
+
     fig, ax = plt.subplots(figsize=(8, 6))
     labels = [0, 1, 2, 3, 4, 5]
     img = ax.imshow(adj_net, cmap='Purples', origin='lower')
@@ -92,16 +116,7 @@ def plot_network(adj_net):
     cbar = fig.colorbar(img)
     cbar.ax.tick_params(labelsize=14)
     fig.tight_layout()
-    fig.savefig(f"figures/{n_nodes}-node network connectivity matrix.pdf")
-
-    # network
-    g = nx.convert_matrix.from_numpy_matrix(adj_net, create_using=nx.DiGraph())
-    labels = {n: n + 1 for n in range(n_nodes)}
-    fig, ax = plt.subplots(figsize=(8, 6))
-    nx.draw(g, arrows=True, with_labels=True, labels=labels, node_size=1400,
-            node_color='red', alpha=0.8, font_size=15, edgecolors='black',
-            arrowsize=12, pos=nx.circular_layout(g), ax=ax)
-    fig.savefig(f"figures/{n_nodes}-node network.pdf")
+    #fig.savefig(f"figures/{n_nodes}-node network connectivity matrix.pdf")
 
 
 def plot_timeseries(data, sfreq):
