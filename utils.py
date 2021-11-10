@@ -9,11 +9,11 @@ def setup_matlab():
     eng = matlab.engine.start_matlab()
 
     # add MVGC2 paths
-    eng.addpath("/Users/FrancescoInnocenti/Documents/MATLAB/MVGC2/core")
-    eng.addpath("/Users/FrancescoInnocenti/Documents/MATLAB/MVGC2/gc/var")
-    eng.addpath("/Users/FrancescoInnocenti/Documents/MATLAB/MVGC2/utils")
-    eng.addpath("/Users/FrancescoInnocenti/Documents/MATLAB/MVGC2/stats")
-    eng.addpath("/Users/FrancescoInnocenti/Documents/MATLAB/MVGC2/demo")
+    eng.addpath("~/Documents/MATLAB/MVGC2/core")
+    eng.addpath("~/Documents/MATLAB/MVGC2/gc/var")
+    eng.addpath("~/Documents/MATLAB/MVGC2/utils")
+    eng.addpath("~/Documents/MATLAB/MVGC2/stats")
+    eng.addpath("~/Documents/MATLAB/MVGC2/demo")
 
     return eng
 
@@ -101,7 +101,7 @@ def plot_network(adj_net):
     nx.draw(g, arrows=True, with_labels=True, labels=labels, node_size=1400,
             node_color='red', alpha=0.8, font_size=15, edgecolors='black',
             arrowsize=12, pos=nx.circular_layout(g), ax=ax)
-    plt.savefig(f"figures/{n_nodes}-node network.pdf")
+    fig.savefig(f"figures/{n_nodes}-node network.pdf")
 
 
 def plot_timeseries(data, sfreq):
