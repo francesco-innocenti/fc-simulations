@@ -36,7 +36,7 @@ def simulate_data(n_trials, n_obs, adj_net, moact, rho, wvar, rmi, demean=True,
             array for Python. False by default.
 
     Returns:
-        data (array): 3D matrix containing number of network nodes, number of
+        data (3D array): matrix containing number of network nodes, number of
             observations or samples and number of trials or epochs.
     """
 
@@ -69,7 +69,7 @@ def plot_network(adj_net, save=True):
     """Plots network with its adjacency or connectivity matrix.
 
     Args:
-        adj_net (array): (2D) matrix representing a graph/network.
+        adj_net (2D array): matrix representing a graph/network.
         save (bool): whether to save figures (true by default).
 
     """
@@ -78,6 +78,9 @@ def plot_network(adj_net, save=True):
 
     if len(adj_net.shape) != 2:
         raise ValueError("Adjacency matrix must have two dimensions")
+
+    if adj_net.shape[0] != adj_net.shape[1]:
+        raise ValueError("Adjacency matrix must be square")
 
     n_nodes = len(adj_net)
 
@@ -113,7 +116,7 @@ def plot_timeseries(data, sfreq, save=True):
     """Plots timeseries for given trials at a given sampling rate.
 
     Args:
-        data (array): 3D matrix containing number of network nodes, number of
+        data (3D array): matrix containing number of network nodes, number of
             observations or samples and number of trials or epochs.
         sfreq (int): sampling frequency (Hz).
         save (bool): whether to save figures (true by default).
@@ -132,3 +135,34 @@ def plot_timeseries(data, sfreq, save=True):
         trial.plot()
         if save:
             plt.savefig(f"figures/Time series of trial #{n}.pdf")
+
+
+def plot_psi(psi, save=True):
+    """Plots connectivity matrix estimated with phase slope index (PSI).
+
+    Args:
+        psi (2D array): PSI-estimated connectivity matrix.
+        save (bool): whether to save figure (true by default).
+
+    """
+
+    if len(psi.shape) != 2:
+        raise ValueError("Connectivity matrix must have two dimensions")
+
+    if psi.shape[0] != psi.shape[1]:
+        raise ValueError("Connectivity matrix must be square")
+
+    fig, ax = plt.subplots(figsize=(8, 6))
+    labels = [0, 1, 2, 3, 4, 5]
+    img = ax.imshow(psi, cmap='bwr', origin='lower')
+    ax.set_xticklabels(labels)
+    ax.set_yticklabels(labels)
+    ax.tick_params(axis='both', which='major', labelsize=14)
+    ax.set_xlabel("From", labelpad=15, fontsize=20)
+    ax.set_ylabel("To", labelpad=15, fontsize=20)
+    cbar = fig.colorbar(img)
+    cbar.ax.tick_params(labelsize=14)
+    fig.tight_layout()
+
+    if save:
+        fig.savefig(f"figures/PSI connectivity matrix.pdf")
