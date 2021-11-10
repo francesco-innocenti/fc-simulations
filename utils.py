@@ -94,7 +94,7 @@ def plot_network(adj_net, save=True):
             arrowsize=12, pos=nx.circular_layout(g), ax=ax)
 
     if save:
-        fig.savefig(f"figures/{n_nodes}-node network.pdf")
+        fig.savefig(f"figures/net{n_nodes}/{n_nodes}-node network.pdf")
 
     # remove self-connections from connectivity matrix
     for r in range(adj_net.shape[0]):
@@ -117,7 +117,7 @@ def plot_network(adj_net, save=True):
     fig.tight_layout()
 
     if save:
-        fig.savefig(f"figures/{n_nodes}-node network connectivity matrix.pdf")
+        fig.savefig(f"figures/net{n_nodes}/{n_nodes}-node network connectivity matrix.pdf")
 
 
 def plot_timeseries(data, sfreq, save=True):
@@ -142,7 +142,7 @@ def plot_timeseries(data, sfreq, save=True):
         trial = mne.io.RawArray(data[:, :, n], info=info)
         trial.plot()
         if save:
-            plt.savefig(f"figures/Time series of trial #{n}.pdf")
+            plt.savefig(f"figures/net{n_nodes}/Time series of trial #{n}.pdf")
 
 
 def plot_psi(psi, save=True):
@@ -160,6 +160,8 @@ def plot_psi(psi, save=True):
     if psi.shape[0] != psi.shape[1]:
         raise ValueError("Connectivity matrix must be square")
 
+    n_nodes = len(psi)
+
     fig, ax = plt.subplots(figsize=(8, 6))
     labels = [0, 1, 2, 3, 4, 5]
     img = ax.imshow(psi, cmap='bwr', norm=colors.CenteredNorm(), origin='lower')
@@ -174,4 +176,4 @@ def plot_psi(psi, save=True):
     fig.tight_layout()
 
     if save:
-        fig.savefig(f"figures/PSI connectivity matrix.pdf")
+        fig.savefig(f"figures/net{n_nodes}/PSI connectivity matrix.pdf")
