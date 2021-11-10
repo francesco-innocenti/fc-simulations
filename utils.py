@@ -163,7 +163,7 @@ def plot_psi(psi, save=True):
     n_nodes = len(psi)
 
     fig, ax = plt.subplots(figsize=(8, 6))
-    labels = [0, 1, 2, 3, 4, 5]
+    labels = [n for n in range(n_nodes+1)]
     img = ax.imshow(psi, cmap='bwr', norm=colors.CenteredNorm(), origin='lower')
     ax.set_title("PSI connectivity matrix", fontsize=18, fontweight='bold')
     ax.set_xticklabels(labels)
