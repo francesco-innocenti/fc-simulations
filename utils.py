@@ -94,7 +94,7 @@ def plot_network(adj_net, save=True):
             arrowsize=12, pos=nx.circular_layout(g), ax=ax)
 
     if save:
-        fig.savefig(f"figures/net{n_nodes}/{n_nodes}-node network.pdf")
+        fig.savefig(f"figures/net{n_nodes}/network_causal_diagram.pdf")
 
     # remove self-connections from connectivity matrix
     for r in range(adj_net.shape[0]):
@@ -116,7 +116,7 @@ def plot_network(adj_net, save=True):
     fig.tight_layout()
 
     if save:
-        fig.savefig(f"figures/net{n_nodes}/{n_nodes}-node network connectivity matrix.pdf")
+        fig.savefig(f"figures/net{n_nodes}/network_connectivity_matrix.pdf")
 
 
 def plot_timeseries(data, sfreq, save=True):
@@ -141,7 +141,7 @@ def plot_timeseries(data, sfreq, save=True):
         trial = mne.io.RawArray(data[:, :, n], info=info)
         trial.plot()
         if save:
-            plt.savefig(f"figures/net{n_nodes}/Time series of trial #{n}.pdf")
+            plt.savefig(f"figures/net{n_nodes}/time_series_trial_#{n}.pdf")
 
 
 def plot_psi(psi, save=True):
@@ -175,4 +175,4 @@ def plot_psi(psi, save=True):
     fig.tight_layout()
 
     if save:
-        fig.savefig(f"figures/net{n_nodes}/PSI connectivity matrix.pdf")
+        fig.savefig(f"figures/net{n_nodes}/PSI_connectivity_matrix.pdf")
