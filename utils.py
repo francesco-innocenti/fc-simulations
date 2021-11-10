@@ -1,6 +1,7 @@
 import matlab.engine
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import colors
 import networkx as nx
 import mne
 
@@ -161,7 +162,7 @@ def plot_psi(psi, save=True):
 
     fig, ax = plt.subplots(figsize=(8, 6))
     labels = [0, 1, 2, 3, 4, 5]
-    img = ax.imshow(psi, cmap='bwr', origin='lower')
+    img = ax.imshow(psi, cmap='bwr', norm=colors.CenteredNorm(), origin='lower')
     ax.set_title("PSI connectivity matrix", fontsize=18, fontweight='bold')
     ax.set_xticklabels(labels)
     ax.set_yticklabels(labels)
