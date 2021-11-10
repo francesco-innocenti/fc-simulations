@@ -84,10 +84,10 @@ def plot_network(adj_net, save=True):
         raise ValueError("Adjacency matrix must be square")
 
     n_nodes = len(adj_net)
+    labels = {n: n + 1 for n in range(n_nodes)}
 
     # network
-    g = nx.convert_matrix.from_numpy_matrix(adj_net, create_using=nx.DiGraph())
-    labels = {n: n + 1 for n in range(n_nodes)}
+    g = nx.convert_matrix.from_numpy_matrix(adj_net.T, create_using=nx.DiGraph())
     fig, ax = plt.subplots(figsize=(8, 6))
     nx.draw(g, arrows=True, with_labels=True, labels=labels, node_size=1400,
             node_color='red', alpha=0.8, font_size=15, edgecolors='black',
@@ -104,7 +104,6 @@ def plot_network(adj_net, save=True):
 
     # connectivity
     fig, ax = plt.subplots(figsize=(8, 6))
-    labels = [0, 1, 2, 3, 4, 5]
     img = ax.imshow(adj_net, cmap='Purples', origin='lower')
     ax.set_title("True connectivity matrix", fontsize=18, fontweight='bold')
     ax.set_xticklabels(labels)
