@@ -85,7 +85,18 @@ def plot_network(adj_net, save=True):
 
     n_nodes = len(adj_net)
 
-    # remove self-connections
+    # network
+    g = nx.convert_matrix.from_numpy_matrix(adj_net, create_using=nx.DiGraph())
+    labels = {n: n + 1 for n in range(n_nodes)}
+    fig, ax = plt.subplots(figsize=(8, 6))
+    nx.draw(g, arrows=True, with_labels=True, labels=labels, node_size=1400,
+            node_color='red', alpha=0.8, font_size=15, edgecolors='black',
+            arrowsize=12, pos=nx.circular_layout(g), ax=ax)
+
+    if save:
+        fig.savefig(f"figures/{n_nodes}-node network.pdf")
+
+    # remove self-connections from connectivity matrix
     for r in range(adj_net.shape[0]):
         for c in range(adj_net.shape[1]):
             if r == c:
@@ -107,17 +118,6 @@ def plot_network(adj_net, save=True):
 
     if save:
         fig.savefig(f"figures/{n_nodes}-node network connectivity matrix.pdf")
-
-    # network
-    g = nx.convert_matrix.from_numpy_matrix(adj_net, create_using=nx.DiGraph())
-    labels = {n: n + 1 for n in range(n_nodes)}
-    fig, ax = plt.subplots(figsize=(8, 6))
-    nx.draw(g, arrows=True, with_labels=True, labels=labels, node_size=1400,
-            node_color='red', alpha=0.8, font_size=15, edgecolors='black',
-            arrowsize=12, pos=nx.circular_layout(g), ax=ax)
-
-    if save:
-        fig.savefig(f"figures/{n_nodes}-node network.pdf")
 
 
 def plot_timeseries(data, sfreq, save=True):
