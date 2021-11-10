@@ -66,7 +66,7 @@ def simulate_data(n_trials, n_obs, adj_net, moact, rho, wvar, rmi, demean=True,
 
 
 def plot_network(adj_net):
-    """Plots graph network from adjacency matrix.
+    """Plots network with its adjacency or connectivity matrix.
 
     Args:
         adj_net (array): (2D) matrix representing graph/network.
@@ -78,12 +78,29 @@ def plot_network(adj_net):
     if len(adj_net.shape) != 2:
         raise ValueError("Adjacency matrix must have two dimensions")
 
-    g = nx.convert_matrix.from_numpy_matrix(adj_net)
     n_nodes = len(adj_net)
+
+    # connectivity matrix
+    fig, ax = plt.subplots(figsize=(8, 6))
+    labels = [0, 1, 2, 3, 4, 5]
+    img = ax.imshow(adj_net, cmap='Purples', origin='lower')
+    ax.set_xticklabels(labels)
+    ax.set_yticklabels(labels)
+    ax.tick_params(axis='both', which='major', labelsize=14)
+    ax.set_xlabel("From", labelpad=15, fontsize=20)
+    ax.set_ylabel("To", labelpad=15, fontsize=20)
+    cbar = fig.colorbar(img)
+    cbar.ax.tick_params(labelsize=14)
+    fig.tight_layout()
+    fig.savefig(f"figures/{n_nodes}-node network connectivity matrix.pdf")
+
+    # network
+    g = nx.convert_matrix.from_numpy_matrix(adj_net, create_using=nx.DiGraph())
     labels = {n: n + 1 for n in range(n_nodes)}
+    fig, ax = plt.subplots(figsize=(8, 6))
     nx.draw(g, arrows=True, with_labels=True, labels=labels, node_size=1400,
             node_color='red', alpha=0.8, font_size=15, edgecolors='black',
-            arrowsize=12, pos=nx.circular_layout(g))
+            arrowsize=12, pos=nx.circular_layout(g), ax=ax)
     plt.savefig(f"figures/{n_nodes}-node network.pdf")
 
 
@@ -107,4 +124,4 @@ def plot_timeseries(data, sfreq):
     for i in range(n_trials):
         trial = mne.io.RawArray(data[:, :, i], info=info)
         trial.plot()
-        plt.savefig(f"figures/Time series of trial #{i}.pdf")
+        #plt.savefig(f"figures/Time series of trial #{i}.pdf")
