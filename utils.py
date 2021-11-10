@@ -65,11 +65,12 @@ def simulate_data(n_trials, n_obs, adj_net, moact, rho, wvar, rmi, demean=True,
     return data
 
 
-def plot_network(adj_net):
-    """Plots network or graph from its adjacency or connectivity matrix.
+def plot_network(adj_net, save=True):
+    """Plots network with its adjacency or connectivity matrix.
 
     Args:
-        adj_net (array): (2D) matrix representing graph/network.
+        adj_net (array): (2D) matrix representing a graph/network.
+        save (bool): whether to save figures (true by default).
 
     """
     if not isinstance(adj_net, np.ndarray):
@@ -80,31 +81,7 @@ def plot_network(adj_net):
 
     n_nodes = len(adj_net)
 
-    g = nx.convert_matrix.from_numpy_matrix(adj_net, create_using=nx.DiGraph())
-    labels = {n: n + 1 for n in range(n_nodes)}
-    fig, ax = plt.subplots(figsize=(8, 6))
-    nx.draw(g, arrows=True, with_labels=True, labels=labels, node_size=1400,
-            node_color='red', alpha=0.8, font_size=15, edgecolors='black',
-            arrowsize=12, pos=nx.circular_layout(g), ax=ax)
-    #fig.savefig(f"figures/{n_nodes}-node network.pdf")
-
-
-def plot_connectivity(adj_net):
-    """Plots adjacency or connectivity matrix as a heatmap.
-
-    Args:
-        adj_net (array): (2D) matrix representing graph/network.
-
-    """
-
-    if not isinstance(adj_net, np.ndarray):
-        adj_net = np.array(adj_net)
-
-    if len(adj_net.shape) != 2:
-        raise ValueError("Adjacency matrix must have two dimensions")
-
-    n_nodes = len(adj_net)
-
+    # connectivity
     fig, ax = plt.subplots(figsize=(8, 6))
     labels = [0, 1, 2, 3, 4, 5]
     img = ax.imshow(adj_net, cmap='Purples', origin='lower')
@@ -116,16 +93,30 @@ def plot_connectivity(adj_net):
     cbar = fig.colorbar(img)
     cbar.ax.tick_params(labelsize=14)
     fig.tight_layout()
-    #fig.savefig(f"figures/{n_nodes}-node network connectivity matrix.pdf")
+
+    if save:
+        fig.savefig(f"figures/{n_nodes}-node network connectivity matrix.pdf")
+
+    # network
+    g = nx.convert_matrix.from_numpy_matrix(adj_net, create_using=nx.DiGraph())
+    labels = {n: n + 1 for n in range(n_nodes)}
+    fig, ax = plt.subplots(figsize=(8, 6))
+    nx.draw(g, arrows=True, with_labels=True, labels=labels, node_size=1400,
+            node_color='red', alpha=0.8, font_size=15, edgecolors='black',
+            arrowsize=12, pos=nx.circular_layout(g), ax=ax)
+
+    if save:
+        fig.savefig(f"figures/{n_nodes}-node network.pdf")
 
 
-def plot_timeseries(data, sfreq):
+def plot_timeseries(data, sfreq, save=True):
     """Plots timeseries for given trials at a given sampling rate.
 
     Args:
         data (array): 3D matrix containing number of network nodes, number of
             observations or samples and number of trials or epochs.
         sfreq (int): sampling frequency (Hz).
+        save (bool): whether to save figures (true by default).
 
     """
     if not isinstance(data, np.ndarray):
@@ -136,7 +127,8 @@ def plot_timeseries(data, sfreq):
     info = mne.create_info(n_nodes, sfreq)
 
     # plot data for all trials/epochs
-    for i in range(n_trials):
-        trial = mne.io.RawArray(data[:, :, i], info=info)
+    for n in range(n_trials):
+        trial = mne.io.RawArray(data[:, :, n], info=info)
         trial.plot()
-        #plt.savefig(f"figures/Time series of trial #{i}.pdf")
+        if save:
+            plt.savefig(f"figures/Time series of trial #{n}.pdf")
