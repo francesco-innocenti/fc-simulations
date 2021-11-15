@@ -1,2 +1,2 @@
-# psych-MEG
-Code for reproducing Granger causality analysis of psychedelic MEG data (https://www.sciencedirect.com/science/article/pii/S1053811919310535).
+# Functional Connectivity Simulations
+Simulation and comparison of functional connectivity measures including Granger causality and Phase Slope Index.
